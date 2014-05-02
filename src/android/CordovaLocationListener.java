@@ -212,6 +212,7 @@ public class CordovaLocationListener implements LocationListener {
     	this.cancelTimer();
         if (this.running) {
             this.locationManager.removeUpdates(this);
+			this.locationManager = null;
             this.running = false;
         }
     }
