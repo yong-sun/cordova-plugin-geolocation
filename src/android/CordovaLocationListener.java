@@ -198,7 +198,7 @@ public class CordovaLocationListener implements LocationListener {
     protected void start() {
         if (!this.running) {
             if (this.locationManager == null) {
-                this.locationManager = (LocationManager)this.owner.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
+                this.getLocationManager();
             }
             if (this.locationManager.getProvider(LocationManager.NETWORK_PROVIDER) != null) {
                 this.running = true;
@@ -228,6 +228,10 @@ public class CordovaLocationListener implements LocationListener {
         	this.timer.purge();
         	this.timer = null;
     	}
+    }
+
+    protected void getLocationManager() {
+        this.locationManager = (LocationManager)this.owner.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
     }
     
     private class LocationTimeoutTask extends TimerTask {
