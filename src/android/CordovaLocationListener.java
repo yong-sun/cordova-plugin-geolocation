@@ -27,6 +27,7 @@ import java.util.TimerTask;
 
 import org.apache.cordova.CallbackContext;
 
+import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -196,6 +197,9 @@ public class CordovaLocationListener implements LocationListener {
      */
     protected void start() {
         if (!this.running) {
+            if (this.locationManager == null) {
+                this.getLocationManager();
+            }
             if (this.locationManager.getProvider(LocationManager.NETWORK_PROVIDER) != null) {
                 this.running = true;
                 this.locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60000, 10, this);
@@ -212,6 +216,8 @@ public class CordovaLocationListener implements LocationListener {
     	this.cancelTimer();
         if (this.running) {
             this.locationManager.removeUpdates(this);
+            this.locationManager = null;
+            this.owner.releaseLocationManager();
             this.running = false;
         }
     }
@@ -222,6 +228,10 @@ public class CordovaLocationListener implements LocationListener {
         	this.timer.purge();
         	this.timer = null;
     	}
+    }
+
+    protected void getLocationManager() {
+        this.locationManager = (LocationManager)this.owner.cordova.getActivity().getSystemService(Context.LOCATION_SERVICE);
     }
     
     private class LocationTimeoutTask extends TimerTask {

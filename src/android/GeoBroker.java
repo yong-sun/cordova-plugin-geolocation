@@ -202,4 +202,12 @@ public class GeoBroker extends CordovaPlugin {
     	else
     		return false;
     }
+
+    /**
+     * Releases the location manager reference. Called after all the JavaScript callbacks are removed.
+     */
+    public void releaseLocationManager()
+    {
+        this.locationManager = null;
+    }
 }
