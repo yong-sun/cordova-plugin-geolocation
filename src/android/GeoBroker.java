@@ -88,10 +88,7 @@ public class GeoBroker extends CordovaPlugin {
                 return false;
             }
         } else {
-            PluginResult.Status status = PluginResult.Status.NO_RESULT;
-            String message = "Location API is not available for this device.";
-            PluginResult result = new PluginResult(status, message);
-            callbackContext.sendPluginResult(result);
+			this.fail(CordovaLocationListener.PERMISSION_DENIED, "Location API is not available for this device.", callbackContext, false);
         }
         return true;
     }
